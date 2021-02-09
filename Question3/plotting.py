@@ -10,6 +10,7 @@ from robot_enums import Heading
 from robot_enums import action_string
 
 plt.rcParams["figure.figsize"] = (10, 10)
+plt.figure(figsize=(10, 10))
 
 # Helper to print all dimensions of an array
 def dim(a):
@@ -75,7 +76,8 @@ class ValueFunctionPlotter(object):
         self.im_south = self.axs[1,0].imshow((south_value_function), origin='lower')
         self.im_west = self.axs[1,1].imshow((west_value_function), origin='lower')
 
-        self.fig.suptitle('State Value Function')
+        self.fig.suptitle('State Value Functionsss')
+        self.fig.set_size_inches(10, 10)
         # self.fig.tight_layout()
         plt.ion()
 
