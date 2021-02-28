@@ -77,14 +77,13 @@ class ValueFunctionPlotter(object):
         self.im_west = self.axs[1,1].imshow((west_value_function), origin='lower')
 
         self.fig.suptitle('State Value Functionsss')
-        self.fig.set_size_inches(10, 10)
-        # self.fig.tight_layout()
+        self.fig.set_size_inches(10, 10)        # self.fig.tight_layout()
         plt.ion()
 
         # Loop over data dimensions and create text annotations.
         self.text=[[[0 for _ in range(north_value_function.shape[1])] for _ in range(north_value_function.shape[0])] for _ in range(4)]
-        print(dim(self.text))
-        print(north_value_function.shape[1])
+        # print(dim(self.text))
+        # print(north_value_function.shape[1])
         for i in range(north_value_function.shape[0]):
             for j in range(north_value_function.shape[1]):
                 self.text[0][i][j] = self.axs[0,0].text(j, i, north_value_function[i, j],
@@ -160,8 +159,8 @@ class PolicyPlotter(object):
 
         # Loop over data dimensions and create text annotations.
         self.text=[[[0 for _ in range(north_policy.shape[1])] for _ in range(north_policy.shape[0])] for _ in range(4)]
-        print(dim(self.text))
-        print(north_policy.shape[1])
+        # print(dim(self.text))
+        # print(north_policy.shape[1])
         for i in range(north_policy.shape[0]):
             for j in range(north_policy.shape[1]):
                 self.text[0][i][j] = self.axs[0,0].text(j, i, action_string(north_policy[i, j]),

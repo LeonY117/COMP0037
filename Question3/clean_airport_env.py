@@ -167,7 +167,7 @@ class CleanAirportEnv(object):
             reward = self.compute_reward(state, Action.TERMINATE)
             new_state = state
             terminal = True
-            return new_state, terminal, reward
+            return new_state, reward, terminal
 
         # If action is a forward movement
         elif action == Action.FORWARD:
@@ -229,9 +229,6 @@ class CleanAirportEnv(object):
             render_terminal_map[cleaning_loc] = 10
         for traffic_loc in self.traffic_locations:
             render_terminal_map[traffic_loc] = -10
-        for charging_loc in self.charging_locations:
-            render_terminal_map[charging_loc] = 0
-
         im = ax.imshow(render_terminal_map, origin="lower", cmap="copper")
 
         # Loop over data dimensions and create text annotations based on heading
@@ -268,39 +265,52 @@ if __name__ == '__main__':
     grid_rows = 7
     grid_cols = 9
     start_state = (0, 0, Heading.EAST)
-    cleaning_locations = [(2, 0), (2, 7), (4, 0), (4, 1), (4, 2), (5, 4), (5, 5), (6, 5)]
-    traffic_locations = [(1, 1), (1, 3), (1, 5), (1, 7), (5, 2)]
-    charging_locations = [(0, 0), (0, 8), (6, 4), (6, 8)]
+    cleaning_locations = [(2, 0), (2, 1), (2, 2), (1, 4), (1, 5), (0, 5), (4, 0), (4, 7)]
+    traffic_locations = [(1, 2), (5, 1), (5, 3), (5, 5), (5, 7)]
     trapdoor_location = [(2, 8, Heading.EAST), (4, 8, Heading.EAST)]
     customs_barrier_row = 3
     # Create object with init method requirements
     robot = CleanAirportEnv(grid_rows, grid_cols, start_state, cleaning_locations, traffic_locations,
-                            charging_locations, trapdoor_location, customs_barrier_row)
+                            trapdoor_location, customs_barrier_row)
 
     # Render the current robot state
     robot.render()
 
     # Tests:
     # 1. Movement and traffic locations
+    print("Testing movement...")
     robot.step(Action.FORWARD)
-    robot.step(Action.ROTATE_CW)
+    robot.step(Action.ROTATE_CCW)
     s, r, d = robot.step(Action.FORWARD)
     print(s, r, d)
 
     # 2. Test cleaning locations
-    robot.state = (1, 0, Heading.EAST)
+    print("Testing cleaning reward...")
+    robot.state = (1, 0, Heading.NORTH)
+    s, r, d = robot.step(Action.FORWARD)
+    # Extra step to trigger TERMINAL action
     s, r, d = robot.step(Action.FORWARD)
     print(s, r, d)
 
-    # Test barriers
-    robot.state = (4, 4, Heading.WEST)
+    # 3. Test cleaning locations
+    print("Testing traffic reward...")
+    robot.state = (5, 0, Heading.EAST)
+    s, r, d = robot.step(Action.FORWARD)
+    # Extra step to trigger TERMINAL action
+    s, r, d = robot.step(Action.FORWARD)
+    print(s, r, d)
+
+    # 4. Test barriers
+    print("Testing barriers...")
+    robot.state = (4, 4, Heading.SOUTH)
     s, r, d = robot.step(Action.FORWARD)
     print(s)
 
     # Test trapdoor
-    robot.state = (4, 8, Heading.NORTH)
+    print("Testing trapdoor...")
+    robot.state = (4, 8, Heading.EAST)
     s, r, d = robot.step(Action.FORWARD)
     print(s)
-    robot.state = (2, 8, Heading.NORTH)
+    robot.state = (2, 8, Heading.EAST)
     s, r, d = robot.step(Action.FORWARD)
     print(s)

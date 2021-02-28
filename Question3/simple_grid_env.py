@@ -137,7 +137,7 @@ class SimpleGridEnv(object):
             reward = self.compute_reward(state, Action.TERMINATE)
             new_state = state
             terminal = True
-            return new_state, terminal, reward
+            return new_state, reward, terminal
         # If action is a translation
         if action == Action.FORWARD:
             # Determine the change in position from action and current heading
@@ -237,6 +237,7 @@ if __name__ == '__main__':
 
     # 2. Test win states
     robot.state = (2, 2, Heading.EAST)
+    s, r, d = robot.step(Action.FORWARD)
     s, r, d = robot.step(Action.FORWARD)
     print(s, r, d)
     robot.render()
