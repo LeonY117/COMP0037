@@ -76,8 +76,11 @@ class ValueFunctionPlotter(object):
         self.im_south = self.axs[1,0].imshow((south_value_function), origin='lower')
         self.im_west = self.axs[1,1].imshow((west_value_function), origin='lower')
 
-        self.fig.suptitle('State Value Functionsss')
-        self.fig.set_size_inches(10, 10)        # self.fig.tight_layout()
+        for ax in self.axs.ravel():
+            ax.axis('off')
+        self.fig.suptitle('State Value Functions')
+        self.fig.set_size_inches(10, 10)        
+        self.fig.tight_layout()
         plt.ion()
 
         # Loop over data dimensions and create text annotations.
@@ -153,6 +156,8 @@ class PolicyPlotter(object):
         self.im_south = self.axs[1,0].imshow(south_policy, origin='lower')
         self.im_west = self.axs[1,1].imshow(west_policy, origin='lower')
 
+        for ax in self.axs.ravel():
+            ax.axis('off')
         self.fig.suptitle('Policy')
         self.fig.tight_layout()
         plt.ion()
