@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# Import statements
+# Import statements 
 import numpy as np
 from simple_grid_env import SimpleGridEnv
 from clean_airport_env import CleanAirportEnv
